@@ -1,0 +1,14 @@
+# Web Framework
+fastapi[standard]
+
+# Config & Validation
+pydantic
+pydantic-settings
+python-dotenv
+
+# AI & DB SDK
+google-generativeai
+supabase
+
+# NLP (Spanish)
+spacy
