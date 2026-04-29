@@ -4,7 +4,7 @@ from pydantic import Field
 class Settings(BaseSettings):
     # .env.local의 변수명과 매핑
     supabase_url: str = Field(..., validation_alias='NEXT_PUBLIC_SUPABASE_URL')
-    supabase_key: str = Field(..., validation_alias='NEXT_PUBLIC_SUPABASE_ANON_KEY')
+    supabase_key: str = Field(..., validation_alias='SUPABASE_SERVICE_ROLE_KEY')
     database_url: str = Field(..., validation_alias='DATABASE_URL')
     
     # .env.local에 추가해야 함 (GEMINI_API_KEY=your_key)
