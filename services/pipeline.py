@@ -4,14 +4,23 @@ from services.analyzer import analyze_spanish_sentence
 from services.tts import generate_and_upload_tts
 from services.generator import generate_word_info
 
-async def process_and_store_sentence(sentence_text: str, translation: str, lang_code: str = "es") -> int:
+async def process_and_store_sentence(
+    sentence_text: str, 
+    translation: str, 
+    bundle_id: str, 
+    start_index: int = 0, 
+    lang_code: str = "es"
+) -> tuple[int, int]:
     """
     1. 문장을 TTS 변환 및 저장 (sentences 테이블)
-    2. 문장을 형태소 분석
-    3. 각 토큰(word)을 words 테이블에 저장 (없을 경우 TTS 변환 및 저장)
-    4. 문장과 단어를 word_sentence_map으로 매핑
+    2. 문장과 기존 번들 연결 (bundle_items)
+    3. 문장을 형태소 분석
+    4. 각 토큰(word)을 words 테이블에 저장 및 번들 연결 (bundle_items)
+    5. 문장과 단어를 word_sentence_map으로 매핑
+    
+    반환값: (sentence_id, next_index)
     """
-    print(f"[{sentence_text}] 처리 시작...")
+    print(f"[{sentence_text}] 처리 시작 (Bundle ID: {bundle_id}, Start Index: {start_index})...")
 
     # 1. 문장 TTS 생성 및 sentences 테이블 저장
     sentence_audio_url = generate_and_upload_tts(sentence_text, folder="sentences", lang=lang_code)
@@ -23,7 +32,16 @@ async def process_and_store_sentence(sentence_text: str, translation: str, lang_
     }).execute()
     
     sentence_id = sentence_res.data[0]["id"]
-    print(f"  - 문장 저장 완료 (ID: {sentence_id}, Audio: {sentence_audio_url})")
+    print(f"  - 문장 저장 완료 (ID: {sentence_id})")
+
+    # 1.1 번들 아이템에 문장 추가
+    current_index = start_index
+    supabase.table("bundle_items").insert({
+        "bundle_id": bundle_id,
+        "sentence_id": sentence_id,
+        "order_index": current_index
+    }).execute()
+    current_index += 1
 
     # 2. 문장 분석
     analyzed_tokens = analyze_spanish_sentence(sentence_text)
@@ -52,6 +70,11 @@ async def process_and_store_sentence(sentence_text: str, translation: str, lang_
             # 존재하지 않는 새로운 단어 -> LLM 정보 추출 & TTS 생성 후 삽입
             print(f"  - 단어 '{word_lemma}' LLM 정보 추출 중...")
             llm_info = await generate_word_info(word_lemma)
+
+            # 유효하지 않은 단어(할루시네이션 등) 필터링
+            if llm_info.get("error") == "invalid_word" or not llm_info.get("meaning"):
+                print(f"  - ⚠️ 유효하지 않은 단어로 판명되어 건너끕니다: {word_lemma}")
+                continue
             
             word_audio_url = generate_and_upload_tts(word_lemma, folder="words", lang=lang_code)
             
@@ -64,11 +87,10 @@ async def process_and_store_sentence(sentence_text: str, translation: str, lang_
                 "declensions": llm_info.get("declensions", {}),
                 "conjugations": llm_info.get("conjugations", {}),
                 "audio_url": word_audio_url
-                # gender 등은 분석기에서 추출된 정보에 따라 매핑할 수 있으나 여기선 생략
             }).execute()
             
             word_id = word_res.data[0]["id"]
-            print(f"  - 단어 '{word_lemma}' (신규 저장, ID: {word_id}, Audio: {word_audio_url})")
+            print(f"  - 단어 '{word_lemma}' (신규 저장, ID: {word_id})")
             
         # 4. word_sentence_map 연결 정보 저장
         supabase.table("word_sentence_map").insert({
@@ -78,6 +100,14 @@ async def process_and_store_sentence(sentence_text: str, translation: str, lang_
             "pos_key": token.pos,
             "grammar_info": token.morph
         }).execute()
+
+        # 5. 번들 아이템에 단어 추가
+        supabase.table("bundle_items").insert({
+            "bundle_id": bundle_id,
+            "word_id": word_id,
+            "order_index": current_index
+        }).execute()
+        current_index += 1
         
-    print(f"[{sentence_text}] 처리 완료!\n")
-    return sentence_id
+    print(f"[{sentence_text}] 처리 완료! (Next Index: {current_index})\n")
+    return sentence_id, current_index
