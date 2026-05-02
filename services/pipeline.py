@@ -2,7 +2,7 @@ from typing import List
 from services.db import supabase
 from services.analyzer import analyze_spanish_sentence
 from services.tts import generate_and_upload_tts
-from services.generator import generate_word_info
+from services.generator import generate_word_info, generate_words_distractor_deepseek
 
 async def process_and_store_sentence(
     sentence_text: str, 
@@ -111,3 +111,53 @@ async def process_and_store_sentence(
         
     print(f"[{sentence_text}] 처리 완료! (Next Index: {current_index})\n")
     return sentence_id, current_index
+
+
+async def process_distractors(limit: int = 100):
+    """
+    오답 단어(Distractors)가 없는 단어들을 찾아 LLM으로 생성하고 저장합니다.
+    RPC를 사용하여 성능을 최적화하고 Batch Insert를 적용합니다.
+    """
+    print(f"오답 단어 생성 프로세스 시작 (Limit: {limit})...")
+    
+    # 1. RPC를 통해 오답 단어가 없는 단어만 조회
+    try:
+        words_response = supabase.rpc("get_words_without_distractors", {"limit_count": limit}).execute()
+    except Exception as e:
+        print(f"RPC 호출 실패: {e}")
+        return
+
+    if not words_response.data:
+        print("모든 단어에 오답 단어가 이미 존재합니다.")
+        return
+
+    for item in words_response.data:
+        word_id = item['id']
+        word_text = item['word']
+        
+        print(f"  - '{word_text}' (ID: {word_id}) 오답 단어 생성 중...")
+        
+        # 2. 제너레이터 실행 (Async)
+        distractors = await generate_words_distractor_deepseek(word_text)
+        
+        if not distractors:
+            print(f"    ⚠️ '{word_text}'에 대한 오답 단어 생성 실패")
+            continue
+            
+        # 3. DB Batch Insert (한 단어에 대한 모든 오답을 한 번에 삽입)
+        insert_data = []
+        for d in distractors:
+            insert_data.append({
+                "word_id": word_id,
+                "distractor": d.get("word"),
+                "meaning_ko": d.get("meaning")
+            })
+            
+        if insert_data:
+            try:
+                supabase.table("words_distractor").insert(insert_data).execute()
+                print(f"    ✅ '{word_text}' 오답 단어 {len(insert_data)}개 저장 완료")
+            except Exception as e:
+                print(f"    ❌ '{word_text}' 저장 실패: {e}")
+
+    print("오답 단어 생성 프로세스 완료.")

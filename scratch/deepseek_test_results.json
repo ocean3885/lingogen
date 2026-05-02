@@ -1,0 +1,277 @@
+[
+  {
+    "word": "me arrepentí",
+    "total_score": 100,
+    "breakdown": {
+      "json_validity": 25,
+      "required_fields": 25,
+      "content_accuracy": 25,
+      "format_compliance": 25,
+      "total": 100
+    },
+    "details": [],
+    "raw_data": {
+      "word": "arrepentirse",
+      "pos": [
+        "VERB"
+      ],
+      "meaning": {
+        "VERB": "후회하다"
+      },
+      "gender": null,
+      "conjugations": {
+        "pres": {
+          "s1": "me arrepiento",
+          "s2": "te arrepientes",
+          "s3": "se arrepiente",
+          "p1": "nos arrepentimos",
+          "p2": "os arrepentís",
+          "p3": "se arrepienten"
+        },
+        "pret": {
+          "s1": "me arrepentí",
+          "s2": "te arrepentiste",
+          "s3": "se arrepintió",
+          "p1": "nos arrepentimos",
+          "p2": "os arrepentisteis",
+          "p3": "se arrepintieron"
+        },
+        "impf": {
+          "s1": "me arrepentía",
+          "s2": "te arrepentías",
+          "s3": "se arrepentía",
+          "p1": "nos arrepentíamos",
+          "p2": "os arrepentíais",
+          "p3": "se arrepentían"
+        },
+        "futr": {
+          "s1": "me arrepentiré",
+          "s2": "te arrepentirás",
+          "s3": "se arrepentirá",
+          "p1": "nos arrepentiremos",
+          "p2": "os arrepentiréis",
+          "p3": "se arrepentirán"
+        },
+        "cond": {
+          "s1": "me arrepentiría",
+          "s2": "te arrepentirías",
+          "s3": "se arrepentiría",
+          "p1": "nos arrepentiríamos",
+          "p2": "os arrepentiríais",
+          "p3": "se arrepentirían"
+        },
+        "perf": {
+          "s1": "me he arrepentido",
+          "s2": "te has arrepentido",
+          "s3": "se ha arrepentido",
+          "p1": "nos hemos arrepentido",
+          "p2": "os habéis arrepentido",
+          "p3": "se han arrepentido"
+        }
+      }
+    }
+  },
+  {
+    "word": "dichas",
+    "total_score": 100,
+    "breakdown": {
+      "json_validity": 25,
+      "required_fields": 25,
+      "content_accuracy": 25,
+      "format_compliance": 25,
+      "total": 100
+    },
+    "details": [],
+    "raw_data": {
+      "word": "dicha",
+      "pos": [
+        "NOUN"
+      ],
+      "meaning": {
+        "NOUN": "행복, 기쁨"
+      },
+      "gender": "f",
+      "conjugations": null,
+      "declensions": {
+        "ms": null,
+        "mp": null,
+        "fs": "dicha",
+        "fp": "dichas"
+      }
+    }
+  },
+  {
+    "word": "sepa",
+    "total_score": 100,
+    "breakdown": {
+      "json_validity": 25,
+      "required_fields": 25,
+      "content_accuracy": 25,
+      "format_compliance": 25,
+      "total": 100
+    },
+    "details": [],
+    "raw_data": {
+      "word": "saber",
+      "pos": [
+        "VERB"
+      ],
+      "meaning": {
+        "VERB": "알다"
+      },
+      "gender": null,
+      "conjugations": {
+        "pres": {
+          "s1": "sé",
+          "s2": "sabes",
+          "s3": "sabe",
+          "p1": "sabemos",
+          "p2": "sabéis",
+          "p3": "saben"
+        },
+        "pret": {
+          "s1": "supe",
+          "s2": "supiste",
+          "s3": "supo",
+          "p1": "supimos",
+          "p2": "supisteis",
+          "p3": "supieron"
+        },
+        "impf": {
+          "s1": "sabía",
+          "s2": "sabías",
+          "s3": "sabía",
+          "p1": "sabíamos",
+          "p2": "sabíais",
+          "p3": "sabían"
+        },
+        "futr": {
+          "s1": "sabré",
+          "s2": "sabrás",
+          "s3": "sabrá",
+          "p1": "sabremos",
+          "p2": "sabréis",
+          "p3": "sabrán"
+        },
+        "cond": {
+          "s1": "sabría",
+          "s2": "sabrías",
+          "s3": "sabría",
+          "p1": "sabríamos",
+          "p2": "sabríais",
+          "p3": "sabrían"
+        },
+        "perf": {
+          "s1": "he sabido",
+          "s2": "has sabido",
+          "s3": "ha sabido",
+          "p1": "hemos sabido",
+          "p2": "habéis sabido",
+          "p3": "han sabido"
+        }
+      }
+    }
+  },
+  {
+    "word": "habré",
+    "total_score": 100,
+    "breakdown": {
+      "json_validity": 25,
+      "required_fields": 25,
+      "content_accuracy": 25,
+      "format_compliance": 25,
+      "total": 100
+    },
+    "details": [],
+    "raw_data": {
+      "word": "haber",
+      "pos": [
+        "VERB"
+      ],
+      "meaning": {
+        "VERB": "~을 가지다, 있다 (조동사로 완료시제 형성)"
+      },
+      "gender": null,
+      "conjugations": {
+        "pres": {
+          "s1": "he",
+          "s2": "has",
+          "s3": "ha",
+          "p1": "hemos",
+          "p2": "habéis",
+          "p3": "han"
+        },
+        "pret": {
+          "s1": "hube",
+          "s2": "hubiste",
+          "s3": "hubo",
+          "p1": "hubimos",
+          "p2": "hubisteis",
+          "p3": "hubieron"
+        },
+        "impf": {
+          "s1": "había",
+          "s2": "habías",
+          "s3": "había",
+          "p1": "habíamos",
+          "p2": "habíais",
+          "p3": "habían"
+        },
+        "futr": {
+          "s1": "habré",
+          "s2": "habrás",
+          "s3": "habrá",
+          "p1": "habremos",
+          "p2": "habréis",
+          "p3": "habrán"
+        },
+        "cond": {
+          "s1": "habría",
+          "s2": "habrías",
+          "s3": "habría",
+          "p1": "habríamos",
+          "p2": "habríais",
+          "p3": "habrían"
+        },
+        "perf": {
+          "s1": "haya",
+          "s2": "hayas",
+          "s3": "haya",
+          "p1": "hayamos",
+          "p2": "hayáis",
+          "p3": "hayan"
+        }
+      }
+    }
+  },
+  {
+    "word": "puesto",
+    "total_score": 100,
+    "breakdown": {
+      "json_validity": 25,
+      "required_fields": 25,
+      "content_accuracy": 25,
+      "format_compliance": 25,
+      "total": 100
+    },
+    "details": [],
+    "raw_data": {
+      "word": "puesto",
+      "pos": [
+        "NOUN",
+        "ADJ"
+      ],
+      "meaning": {
+        "NOUN": "직장, 자리, 포스트",
+        "ADJ": "놓인, 배치된"
+      },
+      "gender": "m",
+      "declensions": {
+        "ms": "puesto",
+        "mp": "puestos",
+        "fs": "puesta",
+        "fp": "puestas"
+      }
+    }
+  }
+]

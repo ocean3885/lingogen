@@ -1,6 +1,6 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, BackgroundTasks
 from schemas.models import StoreSentencesRequest
-from services.pipeline import process_and_store_sentence
+from services.pipeline import process_and_store_sentence, process_distractors
 
 app = FastAPI(
     title="LingoGen API",
@@ -63,3 +63,10 @@ async def store_sentences(request: StoreSentencesRequest):
         "bundle_id": bundle_id,
         "results": results
     }
+
+
+@app.get("/sync-distractors")
+async def sync_distractors(background_tasks: BackgroundTasks):
+    # 백그라운드에서 실행되도록 설정
+    background_tasks.add_task(process_distractors)
+    return {"message": "Distractor generation started in background."}
